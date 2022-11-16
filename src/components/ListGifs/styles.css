@@ -1,0 +1,8 @@
+.ListGifs{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-template-rows: masonry;
+    gap: 0 16px;
+    align-items: center;
+    min-height: 100vh;
+}

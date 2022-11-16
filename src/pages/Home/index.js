@@ -1,40 +1,32 @@
-import React, { useState } from "react";
+import React, { useCallback } from "react";
+import ListGifs from "components/ListGifs";
+import { useGifs } from "hooks/useGifs";
+import Category from "components/Categorias";
 import { Link, useLocation } from "wouter";
-import ListGifs from "../../components/ListGifs";
-import { useGifs } from "../../hooks/useGifs";
-
-const POPULAR_GIFS = ["Matrix", "Venezuela", "Chile", "Colombia", "Ecuador"]
+import TrendingSearches from "components/TrendingSearches/TrendingSearches"; 
+import SearchForm from "components/SearchForm";
 
 export default function Home (){
-    const [keyword, setkeyword] = useState("")
     const [path, pushLocation] = useLocation()
-
     const {loading, gifs} = useGifs()
 
-    const submitSearch = (e)=>{
-        e.preventDefault()
+    const handleSubmit = useCallback(({keyword}) => {
+        // Navegar a otra ruta
         pushLocation(`/search/${keyword}`)
-    }
-
-    const valueSearch = (e)=>{
-        setkeyword(e.target.value)  
-    }
+    }, [pushLocation])
 
     return (
         <div>
-            <form onSubmit={submitSearch}>
-                <input onChange={valueSearch} type="text" />
-            </form>
-            <h3>Ultima busqueda</h3>
-            <ListGifs gifs={gifs} />
-            <h3>Los gifs mas populares</h3>
-            <ul>
-            {POPULAR_GIFS.map((popularGif)=>(
-                <li key={popularGif}>
-                    <Link to={`/search/${popularGif}`}>Gifs de {popularGif}</Link>
-                </li>
-            ))}
-            </ul>
+            <SearchForm onSubmit={handleSubmit} />
+            <div className="app-main">
+                <div className="App-results">
+                    <h3 className="App-title">Última búsqueda</h3>
+                    <ListGifs gifs={gifs} />
+                </div>
+            </div>
+            <div className="App-category">
+                <TrendingSearches />
+            </div>
         </div>
     )
 }

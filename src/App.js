@@ -1,13 +1,12 @@
 import './App.css';
-import React from "react";
-import "./components/Gifs/gifs.css"
-import {Link,Route} from "wouter"
+import React, { Suspense } from "react";
+import {Link, Route} from "wouter"
 import Detail from './pages/Details';
-import Home from './pages/Home';
 import SearchResult from './pages/SearchResult';
 import Pepito from './context/StaticContext'
 import { GifsContextProvider } from './context/GifsContext';
 
+const HomePage = React.lazy(()=>import('./pages/Home'))
 
 function App() {
 
@@ -15,6 +14,7 @@ function App() {
     <Pepito.Provider value={{name: "Leonardo", CI: 28040852}}>
 
     <div className="App">
+      <Suspense fallback={null}>
       <section className="App-content">
 
         <Link to="/"><h1>Giffy</h1></Link>
@@ -22,7 +22,7 @@ function App() {
         <GifsContextProvider>
 
           <Route
-          component={Home}
+          component={HomePage}
           path="/"  />
 
           <Route
@@ -36,6 +36,7 @@ function App() {
         </GifsContextProvider>
 
       </section>
+      </Suspense>
     </div>
 
     </Pepito.Provider>

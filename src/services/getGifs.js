@@ -13,8 +13,8 @@ const fromApiResponseToGifs = apiResponse =>{
     return []
 }
 
-export default function getTrendingTermns({keyword="cyberpunk"} = {}){
-    const API = `${APY_URL}/gifs/search?${API_KEY}&q=${keyword}&limit=5&offset=0&rating=g&lang=en`
+export default function getGifs({limit=5, keyword="cyberpunk", page=0} = {}){
+    const API = `${APY_URL}/gifs/search?${API_KEY}&q=${keyword}&limit=${limit}&offset=${page * limit}&rating=g&lang=en`
     
         return fetch(API)
         .then(res => res.json())
